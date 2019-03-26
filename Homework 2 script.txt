@@ -1,0 +1,38 @@
+Sub stocks()
+
+Dim ws As Worksheet
+Dim ticker As String
+Dim total_stock_volume As Double
+    total_stock_volume = 0
+'Made sure the code looped through all of the worksheets
+For Each ws In Worksheets
+ws.Activate
+
+'Gave the new rows headers
+ws.Range("I1").Value = "Ticker"
+ws.Range("J1").Value = "total stock volume"
+
+LastRow = ws.Cells(Rows.Count, 1).End(xlUp).Row
+
+'If cells hold the same ticker value then sum the running total of volume to the value in the correspoding cells in column G and continue to the next i
+j = 2
+For i = 2 To LastRow
+    If Cells(i + 1, 1).Value = Cells(i, 1).Value Then
+          total_stock_volume = total_stock_volume + ws.Cells(i, 7).Value
+          
+ ' Otherwise input the current values and reset total stock volume
+        
+    Else
+        ticker_symbol = Cells(i, 1).Value
+        ws.Cells(j, 9).Value = ticker_symbol
+        ws.Cells(j, 10).Value = total_stock_volume + ws.Cells(i, 7).Value
+      
+        j = j + 1
+        total_stock_volume = 0
+    End If
+Next i
+
+Next ws
+          
+End Sub
+
